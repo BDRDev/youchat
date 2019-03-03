@@ -3,14 +3,17 @@
 //import express application
 const express = require('express');
 
+//passport used for oauth
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 //create express application
 const app = express();
 
-//create a route hander
-//arrow function gets called right when a request is made to the route
-app.get('/', (req, res) => {
-	res.send({ hi: 'there' });
-})
+
+passport.use(new GoogleStrategy());
+
+
+
 
 //dynamically figures out what port we need to be listening to
 //process.env.PORT is an environment variable from node, if not listen to 5000
