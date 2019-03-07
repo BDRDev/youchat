@@ -13,7 +13,7 @@ const User = mongoose.model('users');
 passport.serializeUser((user, done) => {
 	//done is a callback
 	//1: error object if it exists, 2: identifying information -> from mongo
-	done(null, user.id)
+	done(null, user.id);
 	//used for cookies
 });
 
@@ -42,13 +42,19 @@ passport.use(
 		if(existingUser){
 			console.log(existingUser);
 			console.log(existingUser.id);
+
 			return done(null, existingUser);
 		}
+
+		console.log(profile);
+
 		const user = await new User({
 			googleId: profile.id,
 			fName: profile.name.givenName,
 			lName: profile.name.familyName
 		}).save();
+
+		console.log('new user');
 
 		done(null, user);
 	})
