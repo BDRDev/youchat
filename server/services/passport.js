@@ -47,6 +47,7 @@ passport.use(
 		}
 
 		console.log(profile);
+		console.log('test');
 
 		const user = await new User({
 			googleId: profile.id,
