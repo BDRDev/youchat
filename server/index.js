@@ -3,8 +3,11 @@
 //import express application
 const express = require('express');
 
+const bodyParser = require('body-parser');
 //imports the userSchema
 require('./models/User');
+//requires the conversationSchema
+require('./models/Conversation');
 //import mongoose
 const mongoose = require('mongoose');
 //requires all of the keys for the page
@@ -25,6 +28,8 @@ mongoose.connect(keys.mongoURI);
 //create express application
 const app = express();
 
+app.use(bodyParser.json());
+
 //tell express to make use of cookies
 app.use(
 	cookieSession({
@@ -43,6 +48,8 @@ app.use(passport.session());
 //this is a function, and it is expecting that we call it and pass the app to it
 //requires authRoutes file, returns a function, then we immediately call the function with the app object
 require('./routes/authRoutes')(app);
+require('./routes/userRoutes')(app);
+require('./routes/conversationRoutes')(app);
 
 
 

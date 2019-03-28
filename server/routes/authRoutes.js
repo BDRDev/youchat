@@ -10,12 +10,18 @@ module.exports = app => {
 	}));
 
 	//when users get redirected back from google with their code
-	app.get('/auth/google/callback',passport.authenticate('google'));
+	app.get(
+		'/auth/google/callback',
+		passport.authenticate('google'),
+		//send them to a different route after login
+		(req, res) => {
+			res.redirect('/dashboard');
+		}
+	);
 
-	app.get('/api/logout', (req, res) => {
+	app.get('/auth/logout', (req, res) => {
 		req.logout();
-
-		res.send(req.user);
+		res.redirect('/');
 	})
 
 	app.get('/api/current_user', (req, res) => {
