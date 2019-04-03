@@ -6,12 +6,15 @@ const mongoose = require('mongoose');
 
 const Conversation = mongoose.model('conversations');
 
-module.exports = async codes => {
+module.exports = codes => {
 
 	console.log('create conversation', codes);
 
-	const conversation = await new Conversation({
-		users: codes
+	const conversation = new Conversation({
+		users: codes.map(({ youChatCode, fName, lName }) => (
+				{ youChatCode, fName, lName }
+			)
+		)
 	}).save();
 
 	return conversation;

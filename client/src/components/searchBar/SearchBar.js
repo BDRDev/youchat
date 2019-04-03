@@ -25,12 +25,9 @@ const styles = theme => ({
 });
 
 class SearchBar extends Component {
-
 	state = { search: '' }
 
 	onSubmit = e => {
-		console.log(this.state.search);
-
 		this.props.userSearch(this.state.search);
 		e.preventDefault();
 	}
@@ -42,21 +39,21 @@ class SearchBar extends Component {
 		})
 	}
 
-	createConversation = searchCode => {
-		// console.log('searched code', searchCode);
-		// console.log('our code', this.props.auth.youChatCode)
+	//as of now this is what is stopping me from having group chats, I need a way to dynamically
+	//create an array of users, as of now I am hard coding it
+	createConversation = () => {
+		const { fName, lName, youChatCode } = this.props.auth;
 
-		const ourCode = this.props.auth.youChatCode;
+		const user = { fName, lName, youChatCode };
 
-		const codes = [ourCode, searchCode]
+		const users = [user.youChatCode, this.props.user.search.youChatCode];
 
-		this.props.createConversation(codes);
+		console.log(users)
+		
+		this.props.createConversation(users);
 	}
 
 	displayResults = () => {
-		console.log(this.props)
-		console.log('displayResults', this.props.user.search)
-
 		const currentYouChatCode = this.props.auth.youChatCode;
 		const user = this.props.user.search;
 
@@ -110,8 +107,6 @@ class SearchBar extends Component {
 }
 
 const mapStateToProps = state => {
-
-	console.log('mapStateToProps from SearchBar', state);
 
 	return state;
 }

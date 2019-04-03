@@ -7,11 +7,7 @@ import { USER_SEARCH, CREATE_CONVERSATION } from './types';
 
 export const userSearch = term => async dispatch => {
 
-	console.log('user search action', term);
-
-	const res = await axios.get(`/api/search/user?term=${term}`);
-
-	console.log('res data', res.data);
+	const res = await axios.get('/api/search/user', { params: { term } });
 
 	dispatch({
 		type: USER_SEARCH,
@@ -19,16 +15,12 @@ export const userSearch = term => async dispatch => {
 	})
 }
 
-export const createConversation = codes => async dispatch => {
+export const createConversation = users => async dispatch => {
 
-	console.log('codes', codes);
-
-	const res = await axios.post('/api/conversation/new', { codes });
-
-	console.log('res', res);
+	const res = await axios.post('/api/conversation/new', { users });
 
 	dispatch({
 		type: CREATE_CONVERSATION,
-		payload: 'fake'
-	})
+		payload: res.data
+	});
 }

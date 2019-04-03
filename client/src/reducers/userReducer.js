@@ -5,7 +5,6 @@ const initialState = {
   search: null
 };
 
-
 export default function(state = initialState, action) {
 
 	switch(action.type){

@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 
 const User = mongoose.model('users');
 
+const createCode = require('../helpers/createCode');
+
 //define an arrow function and pass it to serializeUser
 //1: user model -> the user we got from the database, 2: done function
 passport.serializeUser((user, done) => {
@@ -39,18 +41,21 @@ passport.use(
 		const existingUser = await User.findOne({ googleId: profile.id });
 
 		//if the user doesnt exist, create them
-		if(existingUser){
-			console.log(existingUser);
-			console.log(existingUser.id);
+		if(existingUser){			
 
 			return done(null, existingUser);
 		}
+
+		const code = await createCode(profile.name.givenName, profile.name.familyName).toString();
+
+		console.log('code', code);
 
 		const user = await new User({
 			googleId: profile.id,
 			fName: profile.name.givenName,
 			lName: profile.name.familyName,
-			email: profile.emails[0].value
+			email: profile.emails[0].value,
+			youChatCode: code
 		}).save();
 
 		done(null, user);

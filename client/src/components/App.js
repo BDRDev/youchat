@@ -16,7 +16,21 @@ class App extends React.Component {
 		console.log('app component mounted');
 
 		this.props.fetchUser();
-	}	
+	}
+
+	//this is inplace so that the dashboard and profile only mount if
+	//a user is logged in and we have their data is the application state
+	displayDashboard = () => {
+		const { auth } = this.props;
+		if(auth)
+			return <Route path="/dashboard" component={Dashboard} exact />;
+	}
+
+	displayProfile = () => {
+		const { auth } = this.props;
+		if(auth)
+			return <Route path="/profile" component={Profile} exact />;
+	}
 
 	render(){
 
@@ -26,8 +40,9 @@ class App extends React.Component {
 					<div>
 						<Header />
 						<Route path="/" component={Landing} exact />
-						<Route path="/dashboard" component={Dashboard} exact />
-						<Route path="/profile" component={Profile} exact />
+
+						{this.displayDashboard()}
+						{this.displayProfile()}
 					</div>
 				</BrowserRouter>
 			</div>

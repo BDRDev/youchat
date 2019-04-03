@@ -65,7 +65,6 @@ class Header extends Component {
 	};
 
 	displayHeaderContent = () => {
-		console.log('header content', this.props.auth);
 		if(this.props.auth){
 			const classes = { menuButton: '' }
 			return(
@@ -173,8 +172,6 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => {
-
-	console.log('header map state to props', state);
 	return state;
 }
 
