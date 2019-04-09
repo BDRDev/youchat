@@ -4,14 +4,17 @@ import { connect } from 'react-redux';
 
 import { fetchConversation } from '../actions/conversation';
 
-import MessageDisplay from './MessageDisplay';
-
-//import { Link } from 'react-router-dom';
+import ConversationDisplay from './ConversationDisplay';
 
 class Dashboard extends Component {
 
+	//I kind of just want to do this once then let the tick function update the state
+	//this is fine for now but once I get messaging I want to add a check to see
+	//if we have any conversations, if we do do noto run this
+	//This will work for now but once we have a lot of conversations with a lot of
+	//messages it can get to be a lot of data we are fetching each time
 	componentDidMount = () => {
-		console.log('dashboard mounts', this.props)
+		//console.log('dashboard mounts', this.props)
 		this.getConversations();
 
 		// this.timerID = setInterval(
@@ -29,7 +32,7 @@ class Dashboard extends Component {
 		const { auth } = this.props;
 
 		if(auth && auth.conversations.length > 0){
-			console.log('fetch em');
+			//console.log('fetch em');
 
 			//fetch the conversations
 			auth.conversations.forEach( async ({ conversationId }) => {
@@ -43,7 +46,7 @@ class Dashboard extends Component {
 
 
 	displayContent = () => {
-		console.log('displayContent', this.props.conversation)
+		//console.log('displayContent', this.props.conversation)
 
 		const { conversation } = this.props;
 
@@ -53,13 +56,13 @@ class Dashboard extends Component {
 			//checks to see if we have any conversations
 			if(this.props.auth.conversations.length > 0  && conversation.length > 0){
 
-				console.log('at least one convo in state');
+				//console.log('at least one convo in state');
 				//loop through the array and return a messageDisplay Component
 
 				return conversation.map((conversation, index) => {
-					console.log('loop', conversation);
+					//console.log('loop', conversation);
 
-					return <MessageDisplay 
+					return <ConversationDisplay 
 								key={index} 
 								conversation={conversation}
 								userCode={this.props.auth.youChatCode}

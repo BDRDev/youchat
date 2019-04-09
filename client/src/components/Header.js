@@ -28,7 +28,7 @@ import Message from '@material-ui/icons/Message';
 //these are used as classes - root, grow, menuButton
 const styles = {
   root: {
-    flexGrow: 1,
+    //flexGrow: 1,
   },
   grow: {
     flexGrow: 1,

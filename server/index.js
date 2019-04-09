@@ -2,14 +2,18 @@
 
 //import express application
 const express = require('express');
-
+//import mongoose
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+
+const socketServer = require('socket.io');
 //imports the userSchema
 require('./models/User');
 //requires the conversationSchema
 require('./models/Conversation');
-//import mongoose
-const mongoose = require('mongoose');
+
+
+
 //requires all of the keys for the page
 const keys = require('./config/keys');
 
@@ -22,13 +26,23 @@ require('./services/passport');
 
 
 
-//lets mongoose connect to our database
-mongoose.connect(keys.mongoURI);
+
 
 //create express application
 const app = express();
+var http = require('http').Server(app);
 
 app.use(bodyParser.json());
+
+
+//lets mongoose connect to our database
+mongoose.connect(keys.mongoURI);
+
+var db = mongoose.connection;
+db.on('error', () => { console.log('---YouChat FAILED to connect to mongoose') });
+db.once('open', () => { console.log('+++YouChat connected to mongoose') });
+
+require('./services/socket');
 
 //tell express to make use of cookies
 app.use(

@@ -9,3 +9,4 @@ export const USER_SEARCH = 'user_search';
 
 //for conversation.js
 export const FETCH_CONVERSATION = 'fetch_conversation';
+export const SEND_MESSAGE = 'send_message';

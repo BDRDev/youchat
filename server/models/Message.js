@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const messageSchema = new Schema({
-	sentBy: String,
+	code: String,
+	fName: String,
+	lName: String,
 	time: { type: Date, default: Date.now },
 	message: String
 });

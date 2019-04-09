@@ -1,77 +1,72 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 
-const styles = {
-  card: {
-    minWidth: 275,
-    marginTop: 10
+import Message from './Message';
+
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+  container: {
+    width: '100%',
+    flex: 1,
+    marginTop: 8,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    padding: '8px 0',
+    boxSizing: 'border-box',
+    overflow: 'hidden'
   },
-  MuiCardContent: {
-  	paddingBottom: 10
+  textField: {
+    width: '100%'
+  },
+  dense: {
+    marginTop: 16,
+  },
+  menu: {
+    width: 200,
   },
   content: {
-  	padding: 10,
-  	paddingBottom: '10px !important'
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginTop: 8,
-  },
-};
+    overflow: 'auto',
+    height: 'auto',
+    padding: '0 8px',
+    webkitOverflowScrolling: 'touch',
+    msOverflowStyle: 'none'
+  }
+});
+
+const displayMessages = (messages, user) => {
+  return messages.map((message, index) => {
+
+      if(message.code === user){
+
+        console.log('our message');
+        return <Message key={index} side='right' message={message.message} />
+
+      } else if(message.code !== user){
+
+        console.log('different message');
+        return <Message key={index} side='left' message={message.message} />
+      }
+  });
+
+}
+
+const toBottom = () => {
+  
+}
 
 const MessageDisplay = props => {
-	const { classes } = props;
-  const { messages } = props.conversation;
-
+	const { classes, messages, user } = props;
   console.log('props', props);
 
-  const names = apartOfConversation(props.conversation.users, props.userCode);
+	return(
+		<div className={classes.container}>
+        <div id='messageWrapper' className={classes.content}>
+  			  {displayMessages(messages, user)}
+        </div>
+		</div>
+	)
 
-	return (
-    <Card className={classes.card}>
-      <CardContent className={classes.content}>
-        <Typography variant="h5" component="h2">
-          {displayNames(names)}
-         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          {displayLastMessage(messages)}
-        </Typography>
-      </CardContent>
-    </Card>
-  );
 }
-
-//returns the users whose yc Code does not match the users who is logged in
-const apartOfConversation = (users, currentUser) => {
-  return users.map(user => user.youChatCode === currentUser ? null : user ).filter((el => {
-    return el != null;
-  })
-)}
-
-const displayNames = names => {
-  return names.map(({ fName, lName }, index) => {
-    return(
-      <div key={index}>
-        {fName} {lName}
-      </div>
-    )
-  })
-}
-
-const displayLastMessage = messages => {
-  if(messages.length > 0){
-
-  } else {
-    return <React.Fragment>No Messages</React.Fragment>;
-  }
-}
-
 
 export default withStyles(styles)(MessageDisplay);

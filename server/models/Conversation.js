@@ -7,7 +7,8 @@ const UserSchema = require('./ConversationUser');
 //conversation model
 const conversationSchema = new Schema({
 	users: [UserSchema],
-	messages: [MessageSchema]
+	messages: [MessageSchema],
+	lastUpdated: { type: Date, default: Date.now() }
 	
 });
 

@@ -6,6 +6,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: true });
 const findUser = require('../helpers/findUser');
 const createConversation = require('../helpers/createConversation');
 const addConversation = require('../helpers/addConversation');
+const sendMessage = require('../helpers/sendMessage');
 
 const fetchConversation = require('../helpers/fetchConversation');
 
@@ -28,8 +29,6 @@ module.exports = app => {
 		//active user is the one who is initiating all of this
 		const activeUser = users[0];
 
-		//console.log('users', users);
-
 		//we always need to be sure that our youChatCode is the first.
 		//do we need all the other users or just us?
 
@@ -48,32 +47,18 @@ module.exports = app => {
 		
 		if(activeUser.conversations.length === 0){
 			//if there are no conversations we want to go ahead and make the conversation
-			console.log('no conversations');
-
 			const conversation = await createConversation(data);
-
-			console.log('new conversation', conversation);
-			console.log('conversation Id', conversation.id);
-
-
-			console.log();
-
-
 
 			await Promise.all(ycCodes.map(async code => 
 				await addConversation(code, ycCodes, conversation.id)
 			));
 
+			//I might want to send the conversation it's self
+			//
 			res.send('both conversations were created');
 
-			
-
 		} else {
-
-			console.log('User has more than 1 conversation');
-
 			//now we have to check to see if one of the conversations user's matched the array of codes we get
-			console.log('idk what this is', activeUser);
 
 			//by default match is false;
 			let match = false;
@@ -91,17 +76,13 @@ module.exports = app => {
 				}
 			})
 
-			console.log('match', match);
 
 			if(match){
 				res.send('conversation already exists')
 			} else {
 
 				//if there is no match we create the conversation, then add it to the users
-				const conversation = await createConversation(ycCodes);
-
-				console.log('new conversation', conversation);
-				console.log('conversation Id', conversation.id);
+				const conversation = await createConversation(data);
 					
 				await Promise.all(ycCodes.map(async code => 
 					await addConversation(code, ycCodes, conversation.id)
@@ -110,24 +91,27 @@ module.exports = app => {
 				res.send('both conversations were created');
 
 			}
-
-			
 		}
 
 	});
 
 	app.get('/api/conversation/fetch', urlencodedParser, async (req, res) => {
 
-		//console.log(req);
-
 		const id = req.query.conversationId;
 
 		const result = await fetchConversation(id);
 
-		console.log('res', result);
-
 
 		res.send(result);
+	})
+
+	app.post('/api/conversation/sendMessage', urlencodedParser, async (req, res) => {
+
+		console.log(req.body);
+
+		const conversation = await sendMessage(req.body);
+
+		res.send(conversation);
 	})
 
 }
