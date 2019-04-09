@@ -42,7 +42,7 @@ var db = mongoose.connection;
 db.on('error', () => { console.log('---YouChat FAILED to connect to mongoose') });
 db.once('open', () => { console.log('+++YouChat connected to mongoose') });
 
-require('./services/socket');
+// require('./services/socket');
 
 //tell express to make use of cookies
 app.use(
