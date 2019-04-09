@@ -30,7 +30,7 @@ require('./services/passport');
 
 //create express application
 const app = express();
-var http = require('http').Server(app);
+//var http = require('http').Server(app);
 
 app.use(bodyParser.json());
 
