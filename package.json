@@ -20,5 +20,6 @@
   "dependencies": {
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.10"
-  }
+  },
+  homepage: "https://vast-crag-46855.herokuapp.com/client"
 }
