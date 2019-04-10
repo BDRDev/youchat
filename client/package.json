@@ -32,6 +32,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "homepage": "https://vast-crag-46855.herokuapp.com/client"
+  ]
 }
