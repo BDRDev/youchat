@@ -1,6 +1,0 @@
-#files ignored for main folder
-node_modules
-
-#files ignored for the server
-server/config/dev.js
-
