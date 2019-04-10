@@ -6,6 +6,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+console.log('idk');
+
 const socketServer = require('socket.io');
 //imports the userSchema
 require('./models/User');
