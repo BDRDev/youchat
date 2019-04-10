@@ -9,7 +9,6 @@
   },
   "scripts": {
     "start": "npm start --prefix server",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix server",
     "server": "npm run server --prefix server",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
