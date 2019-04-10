@@ -12,7 +12,7 @@
     "server": "npm run server --prefix server",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client && npm install --prefix server"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "",
   "license": "ISC",
@@ -20,5 +20,4 @@
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.10"
   },
-  "homepage": "https://vast-crag-46855.herokuapp.com/client"
 }
