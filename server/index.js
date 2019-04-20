@@ -122,4 +122,4 @@ app.listen(PORT, () => {
 	console.log('Express server listening');
 });
 
-server.listen(port);
+server.listen(PORT);
