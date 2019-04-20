@@ -32,7 +32,7 @@ const io = require('socket.io')(server);
 
 const connections = [];
 
-require('./services/socket');
+require('./services/socket')(io);
 
 //lets mongoose connect to our database
 mongoose.connect(keys.mongoURI);
