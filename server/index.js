@@ -118,8 +118,8 @@ if(process.env.NODE_ENV === 'production'){
 //process.env.PORT is an environment variable from node, if not listen to 5000
 const PORT = process.env.PORT || 5000
 
-app.listen(PORT, () => {
-	console.log('Express server listening');
-});
+// app.listen(PORT, () => {
+// 	console.log('Express server listening');
+// });
 
 server.listen(PORT);
