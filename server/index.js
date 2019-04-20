@@ -34,9 +34,6 @@ const connections = [];
 
 io.on('connection', function(socket){
 	console.log('connected to socket - ', socket.id);
-	socket.id = "testUser3456";
-
-	console.log('socket.id', socket.id);
 	connections.push(socket);
 
 	socket.on('disconnect', () => {
