@@ -14,7 +14,7 @@ class Dashboard extends Component {
 	//This will work for now but once we have a lot of conversations with a lot of
 	//messages it can get to be a lot of data we are fetching each time
 	componentDidMount = () => {
-		//console.log('dashboard mounts', this.props)
+		console.log('dashboard mounts', this.props)
 		this.getConversations();
 
 		// this.timerID = setInterval(

@@ -6,9 +6,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-console.log('idk');
 
-const socketServer = require('socket.io');
 //imports the userSchema
 require('./models/User');
 //requires the conversationSchema
@@ -27,14 +25,47 @@ const passport = require('passport');
 require('./services/passport');
 
 
+// const Server = require('socket.io');
+// const io = new Server();
+
+
 
 
 
 //create express application
-const app = express();
-//var http = require('http').Server(app);
+var app = express();
+
+var http = require('http')
 
 app.use(bodyParser.json());
+
+var server = http.createServer(app);
+
+const io = require('socket.io').listen(4999);
+
+const connections = [];
+
+io.on('connection', function(socket){
+	console.log('connected to socket - ', socket.id);
+	connections.push(socket);
+
+	socket.on('disconnect', () => {
+		console.log('Disconnected - ', socket.id);
+	})
+
+	socket.on('test', () => {
+
+		console.log('this is a test function to see if this is actually working');
+
+		io.emit('testReceived');
+	})
+
+	socket.on('sendMessage', conversationId => {
+		console.log('a message was sent, dispatch to users');
+
+		io.emit('getMessages', conversationId);
+	})
+})
 
 
 //lets mongoose connect to our database
@@ -44,7 +75,7 @@ var db = mongoose.connection;
 db.on('error', () => { console.log('---YouChat FAILED to connect to mongoose') });
 db.once('open', () => { console.log('+++YouChat connected to mongoose') });
 
-// require('./services/socket');
+///require('./services/socket');
 
 //tell express to make use of cookies
 app.use(
@@ -67,10 +98,26 @@ require('./routes/authRoutes')(app);
 require('./routes/userRoutes')(app);
 require('./routes/conversationRoutes')(app);
 
+if(process.env.NODE_ENV === 'production'){
+	// Express will serve up production assets
+	//main.js or main.css files
 
+	//if some get request comes to this file and we do not know what it is
+	//look into this file to try to find the file
+	app.use(express.static('../client/build'));
 
+	//Express will serve up index.html file
+	//if someone makes a request we dont understand, just serve the index.html file
+	const path = require('path');
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+	})
+}
 
 //dynamically figures out what port we need to be listening to
 //process.env.PORT is an environment variable from node, if not listen to 5000
 const PORT = process.env.PORT || 5000
-app.listen(PORT);
+
+app.listen(PORT, () => {
+	console.log('Express server listening');
+});

@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 
 import SearchBar from './searchBar/SearchBar';
 
+import { socketTest } from '../actions/socket';
+
 //for material-ui
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -84,6 +86,12 @@ class Header extends Component {
 		}
 	}
 
+	test = () => {
+		console.log('clicked on test');
+		//console.log(this.props);
+		this.props.socketTest(this.props.socket);
+	}
+
 	displayTopMenu = () => {
 		return(
 			<SearchBar />
@@ -115,6 +123,11 @@ class Header extends Component {
 		        <ListItemText primary='Messages' />
 		      </ListItem>
 	      </Link>
+
+	      <ListItem button key='3' onClick={this.test}>
+	      	<ListItemIcon><Message /></ListItemIcon>
+	        <ListItemText primary='Test' />
+	      </ListItem>
 
 				<a 
 					href='/auth/logout' 
@@ -176,4 +189,6 @@ const mapStateToProps = state => {
 }
 
 
-export default connect(mapStateToProps, {})(withStyles(styles)(Header));
+export default connect(mapStateToProps, {
+	socketTest
+})(withStyles(styles)(Header));

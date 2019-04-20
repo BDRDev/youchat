@@ -11,6 +11,7 @@ import MessageTextInput from './MessageTextInput';
 import MessageDisplay from './MessageDisplay';
 
 import { fetchConversation } from '../actions/conversation';
+import { sendMessageSocket } from '../actions/socket';
 
 const styles = theme => ({
   conversationContainer: {
@@ -40,8 +41,8 @@ class Conversation extends React.Component {
 		console.log('conversation componentDidMount props', this.props);
 	}
 
-	messageSubmit = message => {
-		const { auth, current, sendMessage } = this.props;
+	messageSubmit = async message => {
+		const { auth, current, sendMessage, sendMessageSocket, socket, match } = this.props;
 
 		const messageObj = {
 			message,
@@ -51,7 +52,9 @@ class Conversation extends React.Component {
 			code: auth.youChatCode
 		}
 
-		sendMessage(messageObj);
+		await sendMessage(messageObj);
+		sendMessageSocket(socket, match.params.id);
+
 	}
 
 	render(){
@@ -81,5 +84,6 @@ const mapStateToProps = ({ auth, conversation }, ownProps) => {
 
 export default connect(mapStateToProps, {
 	sendMessage,
-	fetchConversation
+	fetchConversation,
+	sendMessageSocket
 })(withStyles(styles)(Conversation));

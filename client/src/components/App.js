@@ -12,6 +12,7 @@ import Conversation from './Conversation';
 
 //action creators
 import { fetchUser } from '../actions/auth';
+import { fetchConversation } from '../actions/conversation';
 
 //for socket.io
 import io from 'socket.io-client';
@@ -29,6 +30,8 @@ const styles = theme => ({
   }
 });
 
+let socket;
+
 class App extends React.Component {
 
 	constructor(props){
@@ -39,8 +42,25 @@ class App extends React.Component {
 
 		this.props.fetchUser();
 
-		let socket = io.connect('http://localhost:4999');
+		console.log('process.env', process.env.NODE_ENV)
+
+		if(process.env.NODE_ENV !== 'production'){
+			socket = io.connect('http://localhost:4999');
+		} else {
+			//socket = io();
+		}
+
 		console.dir(socket);
+
+		socket.on('testReceived', () => {
+
+			console.log('received the test from the server');
+		})
+
+		socket.on('getMessages', res => {
+			console.log('getMessages', res);
+			this.props.fetchConversation(res);
+		})
 	}
 
 	componentDidMount = () => {
@@ -54,7 +74,7 @@ class App extends React.Component {
 	displayDashboard = () => {
 		const { auth } = this.props;
 		if(auth)
-			return <Route path="/dashboard" component={Dashboard} exact />;
+			return <Route path="/dashboard" render={props => <Dashboard {...props} />} exact/>;
 	}
 
 	displayProfile = () => {
@@ -70,11 +90,15 @@ class App extends React.Component {
 			<div className={classes.appContainer}>
 				<BrowserRouter>
 					<div className={classes.componentsContainer}>
-						<Header />
+						<Header socket={socket} />
 						<Route path="/" component={Landing} exact />
 						{this.displayDashboard()}
 						{this.displayProfile()}
-						<Route path="/conversation/:id" component={Conversation} exact />
+						<Route 
+							path="/conversation/:id" 
+							render={props => <Conversation {...props} socket={socket}/>} 
+							exact 
+						/>
 					</div>
 				</BrowserRouter>
 			</div>
@@ -89,4 +113,4 @@ const mapStateToProps = state => {
 }
 
 
-export default connect(mapStateToProps, { fetchUser })(withStyles(styles)(App));
+export default connect(mapStateToProps, { fetchUser, fetchConversation })(withStyles(styles)(App));
