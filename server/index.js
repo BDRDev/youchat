@@ -41,7 +41,7 @@ app.use(bodyParser.json());
 
 var server = http.createServer(app);
 
-const io = require('socket.io').listen(4999);
+const io = require('socket.io')(server);
 
 const connections = [];
 
@@ -121,3 +121,5 @@ const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
 	console.log('Express server listening');
 });
+
+server.listen(port);
