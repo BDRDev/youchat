@@ -50,7 +50,7 @@ class App extends React.Component {
 			//socket = io();
 		}
 
-		console.dir(socket);
+		//console.dir(socket);
 
 		socket.on('testReceived', () => {
 
