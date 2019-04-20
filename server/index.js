@@ -104,7 +104,7 @@ if(process.env.NODE_ENV === 'production'){
 
 	//if some get request comes to this file and we do not know what it is
 	//look into this file to try to find the file
-	app.use(express.static('../client/build'));
+	app.use(express.static('./client/build'));
 
 	//Express will serve up index.html file
 	//if someone makes a request we dont understand, just serve the index.html file
