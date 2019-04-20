@@ -52,15 +52,15 @@ class App extends React.Component {
 
 		//console.dir(socket);
 
-		socket.on('testReceived', () => {
+		// socket.on('testReceived', () => {
 
-			console.log('received the test from the server');
-		})
+		// 	console.log('received the test from the server');
+		// })
 
-		socket.on('getMessages', res => {
-			console.log('getMessages', res);
-			this.props.fetchConversation(res);
-		})
+		// socket.on('getMessages', res => {
+		// 	console.log('getMessages', res);
+		// 	this.props.fetchConversation(res);
+		// })
 	}
 
 	componentDidMount = () => {
