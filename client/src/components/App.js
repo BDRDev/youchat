@@ -47,20 +47,22 @@ class App extends React.Component {
 		if(process.env.NODE_ENV !== 'production'){
 			socket = io.connect('http://localhost:4999');
 		} else {
-			//socket = io();
+			socket = io();
 		}
 
-		//console.dir(socket);
+		console.dir(socket);
 
-		// socket.on('testReceived', () => {
+		if(socket){
+			socket.on('testReceived', () => {
 
-		// 	console.log('received the test from the server');
-		// })
+				console.log('received the test from the server');
+			})
 
-		// socket.on('getMessages', res => {
-		// 	console.log('getMessages', res);
-		// 	this.props.fetchConversation(res);
-		// })
+			socket.on('getMessages', res => {
+				console.log('getMessages', res);
+				this.props.fetchConversation(res);
+			})
+		}
 	}
 
 	componentDidMount = () => {
