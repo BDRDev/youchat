@@ -1,15 +1,13 @@
 //root start up file for NodeJS -> initial application setup
 
-//import express application
 const express = require('express');
-//import mongoose
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const http = require('http')
 
 
-//imports the userSchema
+//importing the mongoose Schemas
 require('./models/User');
-//requires the conversationSchema
 require('./models/Conversation');
 
 
@@ -20,23 +18,12 @@ const keys = require('./config/keys');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 
-
 //imports out passport configuration from the passport.js file
 require('./services/passport');
 
 
-// const Server = require('socket.io');
-// const io = new Server();
-
-
-
-
-
 //create express application
 var app = express();
-
-var http = require('http')
-
 app.use(bodyParser.json());
 
 var server = http.createServer(app);
@@ -45,28 +32,7 @@ const io = require('socket.io')(server);
 
 const connections = [];
 
-io.on('connection', function(socket){
-	console.log('connected to socket - ', socket.id);
-	connections.push(socket);
-
-	socket.on('disconnect', () => {
-		console.log('Disconnected - ', socket.id);
-	})
-
-	socket.on('test', () => {
-
-		console.log('this is a test function to see if this is actually working');
-
-		io.emit('testReceived');
-	})
-
-	socket.on('sendMessage', conversationId => {
-		console.log('a message was sent, dispatch to users');
-
-		io.emit('getMessages', conversationId);
-	})
-})
-
+require('./services/socket');
 
 //lets mongoose connect to our database
 mongoose.connect(keys.mongoURI);
@@ -75,7 +41,6 @@ var db = mongoose.connection;
 db.on('error', () => { console.log('---YouChat FAILED to connect to mongoose') });
 db.once('open', () => { console.log('+++YouChat connected to mongoose') });
 
-///require('./services/socket');
 
 //tell express to make use of cookies
 app.use(

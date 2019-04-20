@@ -1,13 +1,7 @@
 
 
-//dynamically figures out what port we need to be listening to
-//process.env.PORT is an environment variable from node, if not listen to 5000
-//const PORT = process.env.PORT || 5000
-
-//io.listen(4999, () => { console.log('+++YouChat Express Server with Socket.io Running') });
 
 
-const connections = [];
 
 io.on('connection', function(socket){
 	console.log('connected to socket - ', socket.id);
