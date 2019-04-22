@@ -13,6 +13,7 @@ import Conversation from './Conversation';
 //action creators
 import { fetchUser } from '../actions/auth';
 import { fetchConversation } from '../actions/conversation';
+import { startSocket } from '../actions/socket';
 
 //for socket.io
 import io from 'socket.io-client';
@@ -33,19 +34,30 @@ const styles = theme => ({
 let socket;
 
 class App extends React.Component {
+	state={ socketRunning: false }
 
 	constructor(props){
-		console.log('App constructor');
 		super(props);
 
 		console.log('props', this.props);
 
 		this.props.fetchUser();
+	}
 
-		console.log('process.env', process.env.NODE_ENV)
+	componentDidUpdate = () => {
+		console.log('App Component Updated')
 
+		const { auth } = this.props;
+		console.log('auth', auth);
+
+		if(auth && !this.state.socketRunning){
+			this.props.startSocket(auth._id)
+		}
+	}
+
+	startSocket = () => {
 		if(process.env.NODE_ENV !== 'production'){
-			socket = io.connect('http://localhost:4999');
+			socket = io.connect('http://localhost:5000');
 		} else {
 			socket = io();
 		}
@@ -62,13 +74,11 @@ class App extends React.Component {
 				console.log('getMessages', res);
 				this.props.fetchConversation(res);
 			})
+
+			this.setState({
+				socketRunning: true
+			})
 		}
-	}
-
-	componentDidMount = () => {
-		console.log('app component mounted');
-
-		//this.props.fetchUser();
 	}
 
 	//this is inplace so that the dashboard and profile only mount if
@@ -109,10 +119,12 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => {
-
-	console.log('state', state);
 	return state;
 }
 
 
-export default connect(mapStateToProps, { fetchUser, fetchConversation })(withStyles(styles)(App));
+export default connect(mapStateToProps, { 
+	fetchUser, 
+	fetchConversation,
+	startSocket
+})(withStyles(styles)(App));

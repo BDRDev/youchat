@@ -1,4 +1,30 @@
+import io from 'socket.io-client';
 
+//for ajax calls
+import axios from 'axios';
+
+const setSocketId = userId => async dispatch => {
+	console.log('setSocketId');
+
+	await axios.post('/api/socket/setId', { params: { userId } });
+}
+
+export const startSocket = userId => async dispatch => {
+
+	await dispatch(setSocketId(userId));
+
+	let socket;
+
+	if(process.env.NODE_ENV !== 'production'){
+		socket = io.connect('http://localhost:5000');
+	} else {
+		socket = io();
+	}
+
+	if(socket){
+		console.dir(socket);
+	}
+}
 
 export const socketTest = socket =>  async dispatch => {
 	console.log('socket test', socket);

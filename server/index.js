@@ -5,12 +5,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const http = require('http')
 
-
 //importing the mongoose Schemas
 require('./models/User');
 require('./models/Conversation');
-
-
 
 //requires all of the keys for the page
 const keys = require('./config/keys');
@@ -20,7 +17,6 @@ const passport = require('passport');
 
 //imports out passport configuration from the passport.js file
 require('./services/passport');
-
 
 //create express application
 var app = express();
@@ -32,7 +28,24 @@ const io = require('socket.io')(server);
 
 const connections = [];
 
+app.post('/api/socket/setId', (req, res) => {
+
+	console.log('change socketId in NODE')
+	console.log('req', req.body.params.userId);
+
+	io.engine.generateId = function () {
+	    // generate a new custom id here
+	    //console.log('req', req)
+	    return req.body.params.userId
+	}
+
+	res.send('success')
+
+})
+
+
 io.on('connection', function(socket){
+
 	console.log('connected to socket - ', socket.id);
 	connections.push(socket);
 
@@ -79,14 +92,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //all routes
-//this is a function, and it is expecting that we call it and pass the app to it
-//requires authRoutes file, returns a function, then we immediately call the function with the app object
 require('./routes/authRoutes')(app);
 require('./routes/userRoutes')(app);
 require('./routes/conversationRoutes')(app);
 
 if(process.env.NODE_ENV === 'production'){
-	// Express will serve up production assets
+	//Express will serve up production assets
 	//main.js or main.css files
 
 	//if some get request comes to this file and we do not know what it is
