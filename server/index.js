@@ -60,10 +60,12 @@ io.on('connection', function(socket){
 		io.emit('testReceived');
 	})
 
-	socket.on('sendMessage', conversationId => {
-		console.log('a message was sent, dispatch to users');
+	socket.on('sendMessage', (conversationId, userId) => {
+		console.log('a message was sent, dispatch to ', userId);
 
 		//io.emit('getMessages', conversationId);
+		// sending to individual socketid (private message)
+  		io.to(userId).emit('getMessages', conversationId);
 	})
 })
 

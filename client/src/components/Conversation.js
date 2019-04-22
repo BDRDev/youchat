@@ -53,7 +53,13 @@ class Conversation extends React.Component {
 		}
 
 		await sendMessage(messageObj);
-		sendMessageSocket(socket.socket, match.params.id);
+
+		current.users.map(user => {
+			if(user.youChatCode !== auth.youChatCode){
+				sendMessageSocket(socket.socket, match.params.id, user.youChatCode);
+			}
+		})
+		
 
 	}
 

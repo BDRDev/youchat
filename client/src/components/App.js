@@ -40,7 +40,11 @@ class App extends React.Component {
 
 		console.log('props', this.props);
 
+		console.log('this.props.socket', this.props.socket);
+
 		this.props.fetchUser();
+
+
 	}
 
 	componentDidUpdate = () => {
@@ -89,17 +93,9 @@ class App extends React.Component {
 	// 	}
 	// }
 
-	if(socket){
-		socket.on('testReceived', () => {
 
-			console.log('received the test from the server');
-		})
 
-		socket.on('getMessages', res => {
-			console.log('getMessages', res);
-			this.props.fetchConversation(res);
-		})
-	}
+	
 
 	//this is inplace so that the dashboard and profile only mount if
 	//a user is logged in and we have their data is the application state
@@ -117,6 +113,21 @@ class App extends React.Component {
 
 	render(){
 		const { classes } = this.props;
+
+		if(this.props.socket.socket){
+			const { socket } = this.props.socket.socket;
+
+			console.log('socket', this.props.socket.socket);
+			this.props.socket.socket.on('testReceived', () => {
+
+				console.log('received the test from the server');
+			})
+
+			this.props.socket.socket.on('getMessages', res => {
+				console.log('getMessages', res);
+				//this.props.fetchConversation(res);
+			})
+		}
 
 		return(
 			<div className={classes.appContainer}>
