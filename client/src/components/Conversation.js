@@ -53,7 +53,7 @@ class Conversation extends React.Component {
 		}
 
 		await sendMessage(messageObj);
-		sendMessageSocket(socket, match.params.id);
+		sendMessageSocket(socket.socket, match.params.id);
 
 	}
 
@@ -73,12 +73,12 @@ class Conversation extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ auth, conversation }, ownProps) => {
+const mapStateToProps = ({ auth, conversation, socket }, ownProps) => {
 	const current = _.find(conversation, { _id: ownProps.match.params.id });
 
-	console.log('convo mapStateToProps', auth);
+	console.log('convo mapStateToProps', socket);
 
-	return { current, auth };
+	return { current, auth, socket };
 
 }
 

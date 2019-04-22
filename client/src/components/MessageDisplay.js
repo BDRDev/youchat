@@ -38,13 +38,9 @@ const displayMessages = (messages, user) => {
   return messages.map((message, index) => {
 
       if(message.code === user){
-
-        console.log('our message');
         return <Message key={index} side='right' message={message.message} />
 
       } else if(message.code !== user){
-
-        console.log('different message');
         return <Message key={index} side='left' message={message.message} />
       }
   });
@@ -57,7 +53,6 @@ const toBottom = () => {
 
 const MessageDisplay = props => {
 	const { classes, messages, user } = props;
-  console.log('props', props);
 
 	return(
 		<div className={classes.container}>

@@ -63,7 +63,7 @@ io.on('connection', function(socket){
 	socket.on('sendMessage', conversationId => {
 		console.log('a message was sent, dispatch to users');
 
-		io.emit('getMessages', conversationId);
+		//io.emit('getMessages', conversationId);
 	})
 })
 

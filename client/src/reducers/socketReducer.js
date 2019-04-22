@@ -12,7 +12,7 @@ export default function(state = defaultState, action) {
 		case START_SOCKET: 
 
 			console.log('start socket reducer', action.payload);
-			return { socketRunning: true }
+			return action.payload
 
 		default:
 			return state;

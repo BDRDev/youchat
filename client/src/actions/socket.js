@@ -26,9 +26,14 @@ export const startSocket = userId => async dispatch => {
 	if(socket){
 		console.dir(socket);
 
+		let data = {
+			socketRunning: true,
+			socket: socket
+		}
+
 		dispatch({
 			type: START_SOCKET,
-			payload: true
+			payload: data
 		})
 	}
 }

@@ -16,7 +16,7 @@ import { fetchConversation } from '../actions/conversation';
 import { startSocket } from '../actions/socket';
 
 //for socket.io
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
 const styles = theme => ({
   appContainer: {
@@ -88,6 +88,18 @@ class App extends React.Component {
 			
 	// 	}
 	// }
+
+	if(socket){
+		socket.on('testReceived', () => {
+
+			console.log('received the test from the server');
+		})
+
+		socket.on('getMessages', res => {
+			console.log('getMessages', res);
+			this.props.fetchConversation(res);
+		})
+	}
 
 	//this is inplace so that the dashboard and profile only mount if
 	//a user is logged in and we have their data is the application state
