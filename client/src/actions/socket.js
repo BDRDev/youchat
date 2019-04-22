@@ -3,6 +3,8 @@ import io from 'socket.io-client';
 //for ajax calls
 import axios from 'axios';
 
+import { START_SOCKET } from './types';
+
 const setSocketId = userId => async dispatch => {
 	console.log('setSocketId');
 
@@ -23,6 +25,11 @@ export const startSocket = userId => async dispatch => {
 
 	if(socket){
 		console.dir(socket);
+
+		dispatch({
+			type: START_SOCKET,
+			payload: true
+		})
 	}
 }
 

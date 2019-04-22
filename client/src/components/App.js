@@ -34,7 +34,6 @@ const styles = theme => ({
 let socket;
 
 class App extends React.Component {
-	state={ socketRunning: false }
 
 	constructor(props){
 		super(props);
@@ -48,38 +47,47 @@ class App extends React.Component {
 		console.log('App Component Updated')
 
 		const { auth } = this.props;
-		console.log('auth', auth);
+		
+		console.log('app props', this.props);
 
-		if(auth && !this.state.socketRunning){
-			this.props.startSocket(auth._id)
+		if(auth && !this.props.socket.socketRunning){
+			this.props.startSocket(auth.youChatCode)
 		}
 	}
 
-	startSocket = () => {
-		if(process.env.NODE_ENV !== 'production'){
-			socket = io.connect('http://localhost:5000');
-		} else {
-			socket = io();
-		}
+	// startSocket = () => {
+	// 	if(process.env.NODE_ENV !== 'production'){
+	// 		socket = io.connect('http://localhost:5000');
+	// 	} else {
+	// 		socket = io();
+	// 	}
 
-		console.dir(socket);
+	// 	console.dir(socket);
 
-		if(socket){
-			socket.on('testReceived', () => {
+	// 	console.log('after socket console.log')
 
-				console.log('received the test from the server');
-			})
+	// 	if(socket){
+	// 		console.log('SOCKET IS RUNNING');
 
-			socket.on('getMessages', res => {
-				console.log('getMessages', res);
-				this.props.fetchConversation(res);
-			})
+	// 		this.setState({
+	// 			socketRunning: true
+	// 		})
+	// 	}
 
-			this.setState({
-				socketRunning: true
-			})
-		}
-	}
+	// 	if(socket){
+	// 		socket.on('testReceived', () => {
+
+	// 			console.log('received the test from the server');
+	// 		})
+
+	// 		socket.on('getMessages', res => {
+	// 			console.log('getMessages', res);
+	// 			this.props.fetchConversation(res);
+	// 		})
+
+			
+	// 	}
+	// }
 
 	//this is inplace so that the dashboard and profile only mount if
 	//a user is logged in and we have their data is the application state
