@@ -19,9 +19,6 @@ export default function(state = [], action) {
 				//checks again to make sure that the conversation we fetched is still in the array
 				//if it is we return the new one to take its place
 				return state.map(convo => convo._id === action.payload._id ? action.payload : convo);
-					
-
-				//return state;
 			}
 
 			return [ ...state, action.payload ]

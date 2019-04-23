@@ -26,19 +26,9 @@ class Conversation extends React.Component {
 	constructor(props){
 		super(props);
 
-		console.log(this.props)
-
-		if(this.props.current){
-			console.log('have convo')
-		} else {
-			console.log('do not have convo');
-			//need an action creator to fetch a single conversation
+		if(!this.props.current){
 			this.props.fetchConversation(this.props.match.params.id);
 		}	
-	}
-
-	componentDidMount = () => {
-		console.log('conversation componentDidMount props', this.props);
 	}
 
 	messageSubmit = async message => {
@@ -59,12 +49,9 @@ class Conversation extends React.Component {
 				sendMessageSocket(socket.socket, match.params.id, user.youChatCode);
 			}
 		})
-		
-
 	}
 
 	render(){
-		console.log('conversation props', this.props);
 		const { classes } = this.props;
 		if(this.props.current){
 			return(
@@ -81,8 +68,6 @@ class Conversation extends React.Component {
 
 const mapStateToProps = ({ auth, conversation, socket }, ownProps) => {
 	const current = _.find(conversation, { _id: ownProps.match.params.id });
-
-	console.log('convo mapStateToProps', socket);
 
 	return { current, auth, socket };
 

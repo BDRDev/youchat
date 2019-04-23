@@ -4,7 +4,7 @@ const Conversation = mongoose.model('conversations');
 
 module.exports = async data => {
 
-	console.log('data', data.messageObj);
+	//console.log('data', data.messageObj);
 
 	const { _id, code, fName, lName, message } = data.messageObj;
 

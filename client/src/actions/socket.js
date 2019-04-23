@@ -13,6 +13,8 @@ const setSocketId = userId => async dispatch => {
 
 export const startSocket = userId => async dispatch => {
 
+	console.log('START SOCKET')
+
 	await dispatch(setSocketId(userId));
 
 	let socket;

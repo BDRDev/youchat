@@ -24,6 +24,7 @@ app.use(bodyParser.json());
 
 var server = http.createServer(app);
 
+let socketIdSet = false;
 const io = require('socket.io')(server);
 
 const connections = [];
@@ -36,6 +37,8 @@ app.post('/api/socket/setId', (req, res) => {
 	io.engine.generateId = function () {
 	    // generate a new custom id here
 	    //console.log('req', req)
+
+	    socketIdSet = true;
 	    return req.body.params.userId
 	}
 
@@ -44,30 +47,33 @@ app.post('/api/socket/setId', (req, res) => {
 })
 
 
-io.on('connection', function(socket){
+	io.on('connection', function(socket){
 
-	console.log('connected to socket - ', socket.id);
-	connections.push(socket);
+		console.log('connected to socket - ', socket.id);
+		connections.push(socket);
 
-	socket.on('disconnect', () => {
-		console.log('Disconnected - ', socket.id);
+		socket.on('disconnect', () => {
+			console.log('Disconnected - ', socket.id);
+		})
+
+		socket.on('test', () => {
+
+			console.log('this is a test function to see if this is actually working');
+
+			io.emit('testReceived');
+		})
+
+		socket.on('sendMessage', (conversationId, userId) => {
+			console.log('a message was sent, dispatch to ', userId);
+
+			
+			// sending to individual socketid (private message)
+	  		//io.to(userId).emit('getMessages', conversationId);
+
+	  		io.to('BlakeR#5435').emit('getMessages', conversationId);
+		})
 	})
 
-	socket.on('test', () => {
-
-		console.log('this is a test function to see if this is actually working');
-
-		io.emit('testReceived');
-	})
-
-	socket.on('sendMessage', (conversationId, userId) => {
-		console.log('a message was sent, dispatch to ', userId);
-
-		//io.emit('getMessages', conversationId);
-		// sending to individual socketid (private message)
-  		io.to(userId).emit('getMessages', conversationId);
-	})
-})
 
 
 //lets mongoose connect to our database

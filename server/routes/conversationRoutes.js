@@ -107,7 +107,7 @@ module.exports = app => {
 
 	app.post('/api/conversation/sendMessage', urlencodedParser, async (req, res) => {
 
-		console.log(req.body);
+		//console.log(req.body);
 
 		const conversation = await sendMessage(req.body);
 

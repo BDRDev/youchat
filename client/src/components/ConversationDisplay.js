@@ -35,8 +35,6 @@ const ConversationDisplay = props => {
 	const { classes } = props;
   const { messages } = props.conversation;
 
-  console.log('props', props);
-
   const names = apartOfConversation(props.conversation.users, props.userCode);
 
 	return (
@@ -77,16 +75,11 @@ const displayNames = names => {
 
 const displayLastMessage = messages => {
   if(messages.length > 0){
-
-    console.log('displayLastMessage', messages)
-    console.log(messages[messages.length - 1]);
-
     return <React.Fragment>{messages[messages.length - 1].message}</React.Fragment>;
 
   } else {
     return <React.Fragment>No Messages</React.Fragment>;
   }
 }
-
 
 export default withStyles(styles)(ConversationDisplay);
