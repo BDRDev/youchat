@@ -25,7 +25,6 @@ export const sendMessage = messageObj => async dispatch => {
 	const res = await axios.post('/api/conversation/sendMessage', { messageObj });
 
 	console.log('send message response', res)
-
 	dispatch({
 		type: FETCH_CONVERSATION,
 		payload: res.data

@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { START_SOCKET } from './types';
 
-const setSocketId = userId => async dispatch => {
+export const setSocketId = userId => async dispatch => {
 	console.log('setSocketId');
 
 	await axios.post('/api/socket/setId', { params: { userId } });

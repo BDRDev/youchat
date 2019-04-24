@@ -34,6 +34,8 @@ class Conversation extends React.Component {
 	messageSubmit = async message => {
 		const { auth, current, sendMessage, sendMessageSocket, socket, match } = this.props;
 
+		console.log('Conversation.js', this.props)
+
 		const messageObj = {
 			message,
 			_id: current._id,
@@ -46,7 +48,7 @@ class Conversation extends React.Component {
 
 		current.users.map(user => {
 			if(user.youChatCode !== auth.youChatCode){
-				sendMessageSocket(socket.socket, match.params.id, user.youChatCode);
+				sendMessageSocket(this.props.runningSocket, match.params.id, user.youChatCode);
 			}
 		})
 	}

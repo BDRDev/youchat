@@ -13,10 +13,10 @@ import Conversation from './Conversation';
 //action creators
 import { fetchUser } from '../actions/auth';
 import { fetchConversation } from '../actions/conversation';
-import { startSocket } from '../actions/socket';
+import { startSocket, setSocketId } from '../actions/socket';
 
 //for socket.io
-// import io from 'socket.io-client';
+import io from 'socket.io-client';
 
 const styles = theme => ({
   appContainer: {
@@ -33,6 +33,17 @@ const styles = theme => ({
 
 let socket;
 
+// if(this.props.socket.socket){
+			
+// 			const { socket } = this.props.socket.socket;
+
+// 			this.props.socket.socket.on('getMessages', res => {
+// 				console.log('getMessages', res);
+
+// 				this.props.fetchConversation(res);
+// 			})
+// 		}
+
 class App extends React.Component {
 
 	constructor(props){
@@ -40,18 +51,50 @@ class App extends React.Component {
 
 		console.log('props', this.props);
 
-		console.log('this.props.socket', this.props.socket);
+		// this.props.fetchUser();
 
-		this.props.fetchUser();
+		// if(process.env.NODE_ENV !== 'production'){
+		// 	socket = io.connect('http://localhost:5000');
+		// } else {
+		// 	socket = io();
+		// }
 
+		console.log('socket', socket);
 
+		
+
+		
 	}
 
-	componentDidUpdate = () => {
+	componentDidMount = async () => {
+		console.log('App Mounted', this.props);
+
+		const user = await this.props.fetchUser();
+
+		await this.props.setSocketId(user.youChatCode);
+
+		console.log('user', user);
+
+		if(process.env.NODE_ENV !== 'production'){
+			socket = io.connect('http://localhost:5000');
+		} else {
+			socket = io();
+		}
+
+		console.log('App mounted is over', socket);
+
+		socket.on('getMessages', res => {
+			console.log('getMessages', res);
+
+			//this.props.fetchConversation(res);
+		})
+	}
+
+	componentDidUpdate = async () => {
 		const { auth } = this.props;
 
 		if(auth && !this.props.socket.socketRunning){
-			this.props.startSocket(auth.youChatCode)
+			//this.props.startSocket(auth.youChatCode)
 		}
 	}
 
@@ -72,17 +115,9 @@ class App extends React.Component {
 	render(){
 		const { classes } = this.props;
 
-		console.log('render App');
+		console.log('render App', this.props);
 
-		if(this.props.socket.socket){
-			const { socket } = this.props.socket.socket;
 
-			this.props.socket.socket.on('getMessages', res => {
-				console.log('getMessages', res);
-				
-				this.props.fetchConversation(res);
-			})
-		}
 
 		return(
 			<div className={classes.appContainer}>
@@ -94,7 +129,7 @@ class App extends React.Component {
 						{this.displayProfile()}
 						<Route 
 							path="/conversation/:id" 
-							render={props => <Conversation {...props} socket={socket}/>} 
+							render={props => <Conversation {...props} runningSocket={socket}/>} 
 							exact 
 						/>
 					</div>
@@ -112,5 +147,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, { 
 	fetchUser, 
 	fetchConversation,
-	startSocket
+	startSocket,
+	setSocketId
 })(withStyles(styles)(App));
