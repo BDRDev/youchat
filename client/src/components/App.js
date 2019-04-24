@@ -13,7 +13,7 @@ import Conversation from './Conversation';
 //action creators
 import { fetchUser } from '../actions/auth';
 import { fetchConversation } from '../actions/conversation';
-import { startSocket, setSocketId } from '../actions/socket';
+import { setSocketId } from '../actions/socket';
 
 //for socket.io
 import io from 'socket.io-client';
@@ -46,26 +46,6 @@ let socket;
 
 class App extends React.Component {
 
-	constructor(props){
-		super(props);
-
-		console.log('props', this.props);
-
-		// this.props.fetchUser();
-
-		// if(process.env.NODE_ENV !== 'production'){
-		// 	socket = io.connect('http://localhost:5000');
-		// } else {
-		// 	socket = io();
-		// }
-
-		console.log('socket', socket);
-
-		
-
-		
-	}
-
 	componentDidMount = async () => {
 		console.log('App Mounted', this.props);
 
@@ -90,14 +70,6 @@ class App extends React.Component {
 		})
 	}
 
-	componentDidUpdate = async () => {
-		const { auth } = this.props;
-
-		if(auth && !this.props.socket.socketRunning){
-			//this.props.startSocket(auth.youChatCode)
-		}
-	}
-
 	//this is inplace so that the dashboard and profile only mount if
 	//a user is logged in and we have their data is the application state
 	displayDashboard = () => {
@@ -114,11 +86,6 @@ class App extends React.Component {
 
 	render(){
 		const { classes } = this.props;
-
-		console.log('render App', this.props);
-
-
-
 		return(
 			<div className={classes.appContainer}>
 				<BrowserRouter>
@@ -147,6 +114,5 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, { 
 	fetchUser, 
 	fetchConversation,
-	startSocket,
 	setSocketId
 })(withStyles(styles)(App));

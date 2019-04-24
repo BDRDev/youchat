@@ -28,9 +28,10 @@ class Conversation extends React.Component {
 
 		if(!this.props.current){
 			this.props.fetchConversation(this.props.match.params.id);
-		}	
+		}
 	}
 
+	
 	messageSubmit = async message => {
 		const { auth, current, sendMessage, sendMessageSocket, socket, match } = this.props;
 

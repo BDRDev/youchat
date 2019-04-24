@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import Message from './Message';
 
@@ -48,19 +48,34 @@ const displayMessages = (messages, user) => {
 }
 
 const toBottom = () => {
-  
+  console.log('to bottom')
+  console.log(document.getElementById('messageWrapper'))
 }
 
-const MessageDisplay = props => {
-	const { classes, messages, user } = props;
+class MessageDisplay extends Component {
 
-	return(
-		<div className={classes.container}>
-        <div id='messageWrapper' className={classes.content}>
-  			  {displayMessages(messages, user)}
-        </div>
-		</div>
-	)
+  componentDidMount = () => {
+    console.log('MessageDisplay Mounted');
+    const messages = document.getElementById('messageWrapper');
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  componentDidUpdate = () => {
+    const messages = document.getElementById('messageWrapper');
+    messages.scrollTop = messages.scrollHeight;
+  }
+	
+  render(){
+    const { classes, messages, user } = this.props;
+    console.log('render')
+  	return(
+  		<div className={classes.container}>
+          <div id='messageWrapper' className={classes.content}>
+    			  {displayMessages(messages, user)}
+          </div>
+  		</div>
+  	)
+  }
 
 }
 
