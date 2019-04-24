@@ -68,9 +68,9 @@ app.post('/api/socket/setId', (req, res) => {
 
 			
 			// sending to individual socketid (private message)
-	  		//io.to(userId).emit('getMessages', conversationId);
+	  		io.to(userId).emit('getMessages', conversationId);
 
-	  		io.to('BlakeR#5435').emit('getMessages', conversationId);
+	  		//io.to('BlakeR#5435').emit('getMessages', conversationId);
 		})
 	})
 

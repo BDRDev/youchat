@@ -86,7 +86,7 @@ class App extends React.Component {
 		socket.on('getMessages', res => {
 			console.log('getMessages', res);
 
-			//this.props.fetchConversation(res);
+			this.props.fetchConversation(res);
 		})
 	}
 
