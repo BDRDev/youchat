@@ -113,6 +113,7 @@ if(process.env.NODE_ENV === 'production'){
 	//look into this file to try to find the file
 
 	// old app.use(express.static('./client/build'));
+	console.log('__dirname', __dirname);
 	app.use(express.static(path.join(__dirname, '../client/build')));
 
 	//Express will serve up index.html file
