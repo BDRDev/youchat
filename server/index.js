@@ -112,20 +112,20 @@ if(process.env.NODE_ENV === 'production'){
 	//if some get request comes to this file and we do not know what it is
 	//look into this file to try to find the file
 
-	// old app.use(express.static('./client/build'));
+	app.use(express.static('../client/build'));
 	console.log('__dirname', __dirname);
-	app.use(express.static(path.join(__dirname, '../client/build')));
+	//app.use(express.static(path.join(__dirname, '../client/build')));
 
 	//Express will serve up index.html file
 	//if someone makes a request we dont understand, just serve the index.html file
 	
-	// old app.get('*', (req, res) => {
-	// 	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-	// })
-
-	app.get('/', (req, res) => {
-		res.sendFile(__dirname + './index.html');
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
 	})
+
+	// app.get('/', (req, res) => {
+	// 	res.sendFile(__dirname + './index.html');
+	// })
 }
 
 //dynamically figures out what port we need to be listening to
