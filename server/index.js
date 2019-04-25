@@ -70,9 +70,9 @@ app.post('/api/socket/setId', (req, res) => {
 		socket.on('createConversation', userId => {
 			console.log('createConversation dispatched to ', userId);
 
-			//io.to(userId).emit('getConversation');
+			io.to(userId).emit('getConversation');
 
-			io.to('BlakeR#5435').emit('getMessages');
+			//io.to('BlakeR#5435').emit('getMessages');
 		})
 	})
 
