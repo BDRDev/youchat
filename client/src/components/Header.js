@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom';
 
 import SearchBar from './searchBar/SearchBar';
 
-import { socketTest } from '../actions/socket';
-
 //for material-ui
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -27,7 +25,7 @@ import ArrowBack from '@material-ui/icons/ArrowBackRounded';
 import Person from '@material-ui/icons/Person';
 import Message from '@material-ui/icons/Message';
 
-//these are used as classes - root, grow, menuButton
+
 const styles = {
   root: {
     //flexGrow: 1,
@@ -86,12 +84,6 @@ class Header extends Component {
 		}
 	}
 
-	test = () => {
-		console.log('clicked on test');
-		//console.log(this.props);
-		this.props.socketTest(this.props.socket);
-	}
-
 	displayTopMenu = () => {
 		return(
 			<SearchBar />
@@ -108,26 +100,21 @@ class Header extends Component {
 					onClick={this.toggleDrawer('right', false)}
 				>
 					<ListItem button key='0'>
-		        <ListItemIcon><Person /></ListItemIcon>
-		        <ListItemText primary='Profile' />
-		      </ListItem>
-	      </Link>
+				        <ListItemIcon><Person /></ListItemIcon>
+				        <ListItemText primary='Profile' />
+			      </ListItem>
+	      		</Link>
 
-	      <Link 
-	      	to='/dashboard' 
-	      	className={classes.link} 
-	      	onClick={this.toggleDrawer('right', false)}
-      	>
-		      <ListItem button key='0'>
-		        <ListItemIcon><Message /></ListItemIcon>
-		        <ListItemText primary='Messages' />
-		      </ListItem>
-	      </Link>
-
-	      <ListItem button key='3' onClick={this.test}>
-	      	<ListItemIcon><Message /></ListItemIcon>
-	        <ListItemText primary='Test' />
-	      </ListItem>
+				<Link 
+					to='/dashboard' 
+					className={classes.link} 
+					onClick={this.toggleDrawer('right', false)}
+				>
+					<ListItem button key='0'>
+						<ListItemIcon><Message /></ListItemIcon>
+						<ListItemText primary='Messages' />
+					</ListItem>
+				</Link>
 
 				<a 
 					href='/auth/logout' 
@@ -135,11 +122,11 @@ class Header extends Component {
 					onClick={this.toggleDrawer('right', false)}
 				>
 					<ListItem button key='2'>
-		        <ListItemIcon><ArrowBack /></ListItemIcon>
-		        <ListItemText primary='Log Out' />
-		      </ListItem>
-	      </a>
-      </div>
+						<ListItemIcon><ArrowBack /></ListItemIcon>
+						<ListItemText primary='Log Out' />
+					</ListItem>
+				</a>
+			</div>
 		)
 	}
 
@@ -189,6 +176,4 @@ const mapStateToProps = state => {
 }
 
 
-export default connect(mapStateToProps, {
-	socketTest
-})(withStyles(styles)(Header));
+export default connect(mapStateToProps, )(withStyles(styles)(Header));

@@ -7,7 +7,7 @@ import { FETCH_CONVERSATION, SEND_MESSAGE } from './types';
 
 export const fetchConversation = conversationId => async dispatch => {
 
-	console.log('fetchConversation');
+	console.log('fetchConversation', conversationId);
 
 	const res = await axios.get('/api/conversation/fetch', { params: { conversationId } });
 

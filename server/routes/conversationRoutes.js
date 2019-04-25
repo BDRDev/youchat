@@ -54,8 +54,10 @@ module.exports = app => {
 			));
 
 			//I might want to send the conversation it's self
-			//
-			res.send('both conversations were created');
+			res.send({
+				created: true,
+				conversationId: conversation.id
+			});
 
 		} else {
 			//now we have to check to see if one of the conversations user's matched the array of codes we get
@@ -78,7 +80,7 @@ module.exports = app => {
 
 
 			if(match){
-				res.send('conversation already exists')
+				res.send(false)
 			} else {
 
 				//if there is no match we create the conversation, then add it to the users
@@ -88,7 +90,7 @@ module.exports = app => {
 					await addConversation(code, ycCodes, conversation.id)
 				));
 
-				res.send('both conversations were created');
+				res.send(true);
 
 			}
 		}

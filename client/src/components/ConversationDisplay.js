@@ -37,6 +37,8 @@ const ConversationDisplay = props => {
 
   const names = apartOfConversation(props.conversation.users, props.userCode);
 
+  console.log('Conversation Display Render', props)
+
 	return (
     <Link 
       to={`/conversation/${props.conversation._id}`} 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { userSearch, createConversation } from '../../actions/user';
 
@@ -52,7 +53,10 @@ class SearchBar extends Component {
 
 		const users = [user.youChatCode, this.props.user.search.youChatCode];
 		
-		this.props.createConversation(users);
+		this.props.createConversation(users, conversationId => {
+			console.log('callback', conversationId)
+			this.props.history.push(`/conversation/${conversationId}`)
+		});
 	}
 
 	displayResults = () => {
@@ -84,6 +88,7 @@ class SearchBar extends Component {
 
 	render(){
 		const { classes } = this.props;
+		console.log('this.props searchBar', this.props)
 		return(
 			<div className='searchBar'>
 				<form onSubmit={this.onSubmit}>
@@ -117,4 +122,4 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
 	userSearch,
 	createConversation
-})(withStyles(styles)(SearchBar));
+})(withStyles(styles)(withRouter(SearchBar)));

@@ -34,28 +34,9 @@ const styles = theme => ({
   }
 });
 
-const displayMessages = (messages, user) => {
-  return messages.map((message, index) => {
-
-      if(message.code === user){
-        return <Message key={index} side='right' message={message.message} />
-
-      } else if(message.code !== user){
-        return <Message key={index} side='left' message={message.message} />
-      }
-  });
-
-}
-
-const toBottom = () => {
-  console.log('to bottom')
-  console.log(document.getElementById('messageWrapper'))
-}
-
 class MessageDisplay extends Component {
 
   componentDidMount = () => {
-    console.log('MessageDisplay Mounted');
     const messages = document.getElementById('messageWrapper');
     messages.scrollTop = messages.scrollHeight;
   }
@@ -64,14 +45,25 @@ class MessageDisplay extends Component {
     const messages = document.getElementById('messageWrapper');
     messages.scrollTop = messages.scrollHeight;
   }
+
+  displayMessages = (messages, user) => {
+    return messages.map((message, index) => {
+
+        if(message.code === user){
+          return <Message key={index} side='right' message={message.message} />
+
+        } else if(message.code !== user){
+          return <Message key={index} side='left' message={message.message} />
+        }
+    });
+  }
 	
   render(){
     const { classes, messages, user } = this.props;
-    console.log('render')
   	return(
   		<div className={classes.container}>
           <div id='messageWrapper' className={classes.content}>
-    			  {displayMessages(messages, user)}
+    			  {this.displayMessages(messages, user)}
           </div>
   		</div>
   	)

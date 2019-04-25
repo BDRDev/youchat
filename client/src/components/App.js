@@ -33,27 +33,12 @@ const styles = theme => ({
 
 let socket;
 
-// if(this.props.socket.socket){
-			
-// 			const { socket } = this.props.socket.socket;
-
-// 			this.props.socket.socket.on('getMessages', res => {
-// 				console.log('getMessages', res);
-
-// 				this.props.fetchConversation(res);
-// 			})
-// 		}
-
 class App extends React.Component {
 
 	componentDidMount = async () => {
-		console.log('App Mounted', this.props);
-
 		const user = await this.props.fetchUser();
 
 		await this.props.setSocketId(user.youChatCode);
-
-		console.log('user', user);
 
 		if(process.env.NODE_ENV !== 'production'){
 			socket = io.connect('http://localhost:5000');
@@ -61,13 +46,11 @@ class App extends React.Component {
 			socket = io();
 		}
 
-		console.log('App mounted is over', socket);
-
 		socket.on('getMessages', res => {
 			console.log('getMessages', res);
 
 			this.props.fetchConversation(res);
-		})
+		});
 	}
 
 	//this is inplace so that the dashboard and profile only mount if

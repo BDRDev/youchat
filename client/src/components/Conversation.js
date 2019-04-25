@@ -3,14 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { sendMessage } from '../actions/conversation';
-
 import { withStyles } from '@material-ui/core/styles';
 
 import MessageTextInput from './MessageTextInput';
 import MessageDisplay from './MessageDisplay';
 
-import { fetchConversation } from '../actions/conversation';
+import { fetchConversation, sendMessage } from '../actions/conversation';
 import { sendMessageSocket } from '../actions/socket';
 
 const styles = theme => ({
@@ -33,9 +31,7 @@ class Conversation extends React.Component {
 
 	
 	messageSubmit = async message => {
-		const { auth, current, sendMessage, sendMessageSocket, socket, match } = this.props;
-
-		console.log('Conversation.js', this.props)
+		const { auth, current, sendMessage, sendMessageSocket, match } = this.props;
 
 		const messageObj = {
 			message,
