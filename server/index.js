@@ -3,7 +3,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const http = require('http')
+const http = require('http');
+const path = require('path');
 
 //importing the mongoose Schemas
 require('./models/User');
@@ -110,22 +111,24 @@ if(process.env.NODE_ENV === 'production'){
 
 	//if some get request comes to this file and we do not know what it is
 	//look into this file to try to find the file
-	app.use(express.static('./client/build'));
+
+	// old app.use(express.static('./client/build'));
+	app.use(express.static(path.join(__dirname, '../client/build')));
 
 	//Express will serve up index.html file
 	//if someone makes a request we dont understand, just serve the index.html file
-	const path = require('path');
+	
+	// old app.get('*', (req, res) => {
+	// 	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+	// })
+
 	app.get('*', (req, res) => {
-		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+		res.sendFile(__dirname + './index.html');
 	})
 }
 
 //dynamically figures out what port we need to be listening to
 //process.env.PORT is an environment variable from node, if not listen to 5000
 const PORT = process.env.PORT || 5000
-
-// app.listen(PORT, () => {
-// 	console.log('Express server listening');
-// });
 
 server.listen(PORT);
