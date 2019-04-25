@@ -57,13 +57,6 @@ app.post('/api/socket/setId', (req, res) => {
 			console.log('Disconnected - ', socket.id);
 		})
 
-		socket.on('test', () => {
-
-			console.log('this is a test function to see if this is actually working');
-
-			io.emit('testReceived');
-		})
-
 		socket.on('sendMessage', (conversationId, userId) => {
 			console.log('a message was sent, dispatch to ', userId);
 
@@ -72,6 +65,14 @@ app.post('/api/socket/setId', (req, res) => {
 	  		io.to(userId).emit('getMessages', conversationId);
 
 	  		//io.to('BlakeR#5435').emit('getMessages', conversationId);
+		})
+
+		socket.on('createConversation', userId => {
+			console.log('createConversation dispatched to ', userId);
+
+			//io.to(userId).emit('getConversation');
+
+			io.to('BlakeR#5435').emit('getMessages');
 		})
 	})
 
@@ -112,17 +113,10 @@ if(process.env.NODE_ENV === 'production'){
 	//if some get request comes to this file and we do not know what it is
 	//look into this file to try to find the file
 
-	// app.use(express.static('../client/build'));
-	console.log('__dirname', __dirname);
-
 	app.use(express.static(path.join(__dirname, '../client/build')));
 
 	//Express will serve up index.html file
 	//if someone makes a request we dont understand, just serve the index.html file
-	
-	// app.get('/', (req, res) => {
-	// 	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-	// })
 
 	app.get('/', (req, res) => {
 		res.sendFile(__dirname + './index.html');

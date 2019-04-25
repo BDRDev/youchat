@@ -86,7 +86,7 @@ class Header extends Component {
 
 	displayTopMenu = () => {
 		return(
-			<SearchBar />
+			<SearchBar runningSocket={this.props.runningSocket} />
 		)
 	}
 

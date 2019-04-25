@@ -40,22 +40,16 @@ export const startSocket = userId => async dispatch => {
 	}
 }
 
-export const socketTest = socket =>  async dispatch => {
-	console.log('socket test', socket);
-
-	socket.emit('test');
-}
-
 export const sendMessageSocket = (socket, conversationId, userId) => async dispatch => {
 	//console.log('message sent with socket');
 
 	socket.emit('sendMessage', conversationId, userId);
 
 	console.log(socket);
+}
 
-	// sending to individual socketid (private message)
-  	// io.to(userId).emit('hey', 'I just met you');
+export const createConversationSocket = (socket, userId) => async dispatch => {
+	console.log('create Conversation Emitted to SOCKET')
 
-  	// sending to all clients in 'game' room, including sender
-  	//socket.to(userId).emit('sendMessage');
+	socket.emit('createConversation', userId)
 }

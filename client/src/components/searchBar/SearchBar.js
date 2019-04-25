@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { userSearch, createConversation } from '../../actions/user';
+import { createConversationSocket } from '../../actions/socket';
 
 import SearchResult from './SearchResult';
 
@@ -55,8 +56,18 @@ class SearchBar extends Component {
 		
 		this.props.createConversation(users, conversationId => {
 			console.log('callback', conversationId)
-			this.props.history.push(`/conversation/${conversationId}`)
+			this.props.history.push(`/conversation/${conversationId}`);
+
+			console.log('users', users);
+
+			users.map(user => {
+				if(user !== this.props.auth.youChatCode){
+					this.props.createConversationSocket(this.props.runningSocket, user);
+				}
+			})
 		});
+
+
 	}
 
 	displayResults = () => {
@@ -121,5 +132,6 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
 	userSearch,
-	createConversation
+	createConversation,
+	createConversationSocket
 })(withStyles(styles)(withRouter(SearchBar)));

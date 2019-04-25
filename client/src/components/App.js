@@ -35,6 +35,8 @@ let socket;
 
 class App extends React.Component {
 
+	state={socketSet: false}
+
 	componentDidMount = async () => {
 		const user = await this.props.fetchUser();
 
@@ -47,10 +49,20 @@ class App extends React.Component {
 		}
 
 		socket.on('getMessages', res => {
-			console.log('getMessages', res);
+			console.log('getMessages from socket', res);
 
 			this.props.fetchConversation(res);
 		});
+
+		socket.on('getConversation', res => {
+			console.log('getConversation from socket');
+
+			this.props.fetchUser();
+		})
+
+		this.setState({
+			socketSet: true
+		})
 	}
 
 	//this is inplace so that the dashboard and profile only mount if
@@ -73,7 +85,7 @@ class App extends React.Component {
 			<div className={classes.appContainer}>
 				<BrowserRouter>
 					<div className={classes.componentsContainer}>
-						<Header socket={socket} />
+						<Header runningSocket={socket} />
 						<Route path="/" component={Landing} exact />
 						{this.displayDashboard()}
 						{this.displayProfile()}
