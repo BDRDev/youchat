@@ -15,7 +15,8 @@ module.exports = app => {
 		passport.authenticate('google'),
 		//send them to a different route after login
 		(req, res) => {
-			res.redirect('/dashboard');
+			// res.redirect('/dashboard');
+			res.redirect('/');
 		}
 	);
 
